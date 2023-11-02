@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Mvc;
+using PruebaIngreso.Models;
 using Quote.Contracts;
 using Quote.Models;
 
@@ -9,10 +13,12 @@ namespace PruebaIngreso.Controllers
     public class HomeController : Controller
     {
         private readonly IQuoteEngine quote;
+        private readonly HttpClient _httpClient;
 
         public HomeController(IQuoteEngine quote)
         {
             this.quote = quote;
+            _httpClient = new HttpClient();
         }
 
         public ActionResult Index()
@@ -52,6 +58,33 @@ namespace PruebaIngreso.Controllers
 
         public ActionResult Test3()
         {
+            var code = "E-U10-UNILATIN";
+
+            var strUrl = $"http://refactored-pancake.free.beeceptor.com/margin/{code}";
+            
+            HttpResponseMessage response = new HttpResponseMessage();
+
+            Task.Run(async () =>
+            {
+                response = await _httpClient.GetAsync(strUrl);
+            }).GetAwaiter().GetResult();
+
+            var result = string.Empty;
+
+            if (response.IsSuccessStatusCode)
+            {
+                Task.Run(async () =>
+                {
+                    result = await response.Content.ReadAsStringAsync();
+                }).GetAwaiter().GetResult();
+            }
+            else
+            {
+                result = "{ 'margin': 0.0 }";
+            }
+
+            ViewBag.Message = $"{result}";
+
             return View();
         }
 
@@ -73,7 +106,27 @@ namespace PruebaIngreso.Controllers
             };
 
             var result = this.quote.Quote(request);
-            return View(result.TourQuotes);
+
+            Record record = new Properties();
+
+            var list = new List<ViewModel>();
+
+            foreach (var item in result.TourQuotes)
+            {
+                record = new CallApi(record, item.ContractService.ServiceCode);
+
+                var viewModel = new ViewModel
+                {
+                    ServiceCode = item.ContractService.ServiceCode,
+                    AdultNetRate = item.adultNetRate,
+                    AdultRate = item.adultRate,
+                    Margin = record.Margin
+                };
+
+                list.Add(viewModel);
+            }
+
+            return View(list);
         }
     }
 }

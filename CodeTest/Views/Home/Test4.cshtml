@@ -1,4 +1,4 @@
-﻿@model List<Quote.Models.TourQuote>
+﻿@model List<PruebaIngreso.Models.ViewModel>
 
 @{
    ViewBag.Title = "Test 4";
@@ -18,10 +18,10 @@
       @foreach (var q in Model)
       {
          <tr>
-            <th scope="row">@q.ContractService.ServiceCode</th>
-            <td>@q.adultNetRate</td>
-            <td>@q.adultRate</td>
-            <td>@( (1 - (q.adultNetRate / q.adultRate)) * 100)</td>
+            <th scope="row">@q.ServiceCode</th>
+            <td>@q.AdultNetRate</td>
+            <td>@q.AdultRate</td>
+            <td>@q.Margin</td>
          </tr>
       }
    </tbody>

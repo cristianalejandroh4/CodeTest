@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -58,7 +58,8 @@
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Quote, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\glowing-dollop.0.0.2007354884\lib\netstandard1.0\Quote.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\glowing-dollop\Quote\bin\Debug\netstandard1.0\Quote.dll</HintPath>
     </Reference>
     <Reference Include="Quote.ServiceDescriptor, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\glowing-dollop.ServiceDescriptor.0.0.2007354884\lib\netstandard1.1\Quote.ServiceDescriptor.dll</HintPath>
@@ -126,7 +127,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AddDecorator.cs" />
+    <Compile Include="Models\CallApi.cs" />
     <Compile Include="Models\ErrorHandler.cs" />
+    <Compile Include="Models\Properties.cs" />
+    <Compile Include="Models\Record.cs" />
+    <Compile Include="Models\ViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
